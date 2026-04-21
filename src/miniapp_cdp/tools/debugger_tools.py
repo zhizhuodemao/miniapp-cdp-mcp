@@ -14,19 +14,47 @@ async def break_on_xhr(network_capture: NetworkCaptureService, url: str) -> str:
     except Exception as e:
         return f"Error: {e}"
 
-async def remove_xhr_breakpoint(network_capture: NetworkCaptureService, url: str) -> str:
+async def remove_breakpoints(
+    network_capture: NetworkCaptureService,
+    breakpoint_id: str | None = None,
+    xhr_url: str | None = None,
+    clear_all: bool = False
+) -> str:
     await network_capture.ensure_monitoring()
     collector = network_capture.collector
     if not collector:
         return "Debugger not connected."
     
-    try:
-        await collector.remove_xhr_breakpoint(url)
-        return f"✅ XHR breakpoint removed for URLs containing: '{url}'"
-    except Exception as e:
-        return f"Error: {e}"
+    if clear_all:
+        try:
+            await collector.clear_all_breakpoints()
+            return "✅ All breakpoints (both code and XHR) have been removed. NOTE: If execution is currently paused, you still need to call resume_execution to continue."
+        except Exception as e:
+            return f"Error clearing all breakpoints: {e}"
+            
+    results = []
+    if breakpoint_id:
+        try:
+            await collector.remove_breakpoint(breakpoint_id)
+            results.append(f"✅ Code breakpoint {breakpoint_id} removed.")
+        except Exception as e:
+            results.append(f"Error removing code breakpoint: {e}")
+            
+    if xhr_url:
+        try:
+            await collector.remove_xhr_breakpoint(xhr_url)
+            results.append(f"✅ XHR breakpoint for '{xhr_url}' removed.")
+        except Exception as e:
+            results.append(f"Error removing XHR breakpoint: {e}")
+            
+    if not results:
+        return "⚠️ No action taken. Provide breakpoint_id, xhr_url, or set clear_all=True."
+        
+    results.append("NOTE: If execution is currently paused, you still need to call resume_execution to continue.")
+    return "\n".join(results)
 
-async def pause_or_resume(network_capture: NetworkCaptureService) -> str:
+
+async def resume_execution(network_capture: NetworkCaptureService) -> str:
     await network_capture.ensure_monitoring()
     collector = network_capture.collector
     if not collector:
@@ -37,8 +65,7 @@ async def pause_or_resume(network_capture: NetworkCaptureService) -> str:
             await collector.resume()
             return "▶️ Execution resumed."
         else:
-            await collector.pause()
-            return "⏸️ Pause requested. Waiting for execution to pause..."
+            return "⚠️ Execution is already running (not paused)."
     except Exception as e:
         return f"Error: {e}"
 
@@ -176,19 +203,6 @@ async def set_breakpoint_on_text(
             results.append(f"❌ Failed to set breakpoint at {match['url']}:{match['lineNumber']+1} - {e}")
             
     return "\n".join(results)
-
-
-async def remove_breakpoint(network_capture: NetworkCaptureService, breakpoint_id: str) -> str:
-    await network_capture.ensure_monitoring()
-    collector = network_capture.collector
-    if not collector:
-        return "Debugger not connected."
-        
-    try:
-        await collector.remove_breakpoint(breakpoint_id)
-        return f"✅ Breakpoint {breakpoint_id} removed."
-    except Exception as e:
-        return f"Error removing breakpoint: {e}"
 
 
 async def list_breakpoints(network_capture: NetworkCaptureService) -> str:

@@ -18,11 +18,10 @@ from .tools.script_tools import (
 )
 from .tools.debugger_tools import (
     break_on_xhr,
-    remove_xhr_breakpoint,
-    pause_or_resume,
+    remove_breakpoints,
+    resume_execution,
     get_paused_info,
     set_breakpoint_on_text,
-    remove_breakpoint,
     list_breakpoints,
     step,
 )
@@ -166,11 +165,8 @@ class MiniappCDPMCP:
     async def break_on_xhr(self, url: str) -> str:
         return await break_on_xhr(self.network_capture, url)
 
-    async def remove_xhr_breakpoint(self, url: str) -> str:
-        return await remove_xhr_breakpoint(self.network_capture, url)
-
-    async def pause_or_resume(self) -> str:
-        return await pause_or_resume(self.network_capture)
+    async def resume_execution(self) -> str:
+        return await resume_execution(self.network_capture)
 
     async def get_paused_info(
         self,
@@ -198,8 +194,18 @@ class MiniappCDPMCP:
             condition=condition,
         )
 
-    async def remove_breakpoint(self, breakpoint_id: str) -> str:
-        return await remove_breakpoint(self.network_capture, breakpoint_id)
+    async def remove_breakpoints(
+        self,
+        breakpoint_id: str | None = None,
+        xhr_url: str | None = None,
+        clear_all: bool = False,
+    ) -> str:
+        return await remove_breakpoints(
+            self.network_capture,
+            breakpoint_id=breakpoint_id,
+            xhr_url=xhr_url,
+            clear_all=clear_all,
+        )
 
     async def list_breakpoints(self) -> str:
         return await list_breakpoints(self.network_capture)

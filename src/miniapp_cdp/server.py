@@ -212,19 +212,14 @@ async def break_on_xhr(url: str) -> str:
 
 
 @mcp.tool(
-    name="remove_xhr_breakpoint",
-    description="Removes an XHR/Fetch breakpoint.",
+    name="resume_execution",
+    description=(
+        "Resumes JavaScript execution if it is currently paused at a breakpoint. "
+        "Use this tool to continue running the application after you have finished inspecting the paused state."
+    ),
 )
-async def remove_xhr_breakpoint(url: str) -> str:
-    return await app.remove_xhr_breakpoint(url=url)
-
-
-@mcp.tool(
-    name="pause_or_resume",
-    description="Toggles JavaScript execution. If paused, resumes execution. If running, pauses execution.",
-)
-async def pause_or_resume() -> str:
-    return await app.pause_or_resume()
+async def resume_execution() -> str:
+    return await app.resume_execution()
 
 
 @mcp.tool(
@@ -264,11 +259,25 @@ async def set_breakpoint_on_text(
 
 
 @mcp.tool(
-    name="remove_breakpoint",
-    description="Removes a breakpoint by its ID.",
+    name="remove_breakpoints",
+    description=(
+        "Removes breakpoints. You can specify a code breakpoint ID, an XHR URL, "
+        "or set clear_all=True to delete ALL breakpoints (highly recommended before starting a new task). "
+        "WARNING: This deletes the breakpoint so it won't hit again. "
+        "If you are currently paused and just want to continue running the code, DO NOT use this tool; "
+        "use `resume_execution` instead."
+    ),
 )
-async def remove_breakpoint(breakpoint_id: str) -> str:
-    return await app.remove_breakpoint(breakpoint_id=breakpoint_id)
+async def remove_breakpoints(
+    breakpoint_id: str | None = None,
+    xhr_url: str | None = None,
+    clear_all: bool = False,
+) -> str:
+    return await app.remove_breakpoints(
+        breakpoint_id=breakpoint_id,
+        xhr_url=xhr_url,
+        clear_all=clear_all,
+    )
 
 
 @mcp.tool(

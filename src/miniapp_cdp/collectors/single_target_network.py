@@ -557,6 +557,24 @@ class SingleTargetNetworkCollector:
         )
         self.breakpoints.pop(breakpoint_id, None)
 
+    async def clear_all_breakpoints(self) -> None:
+        if self.client is None or self.session_id is None:
+            raise RuntimeError("Debugger not connected")
+        
+        # Clear code breakpoints
+        for bp_id in list(self.breakpoints.keys()):
+            try:
+                await self.remove_breakpoint(bp_id)
+            except Exception:
+                pass
+                
+        # Clear XHR breakpoints
+        for url in list(self.xhr_breakpoints):
+            try:
+                await self.remove_xhr_breakpoint(url)
+            except Exception:
+                pass
+
     async def step_over(self) -> None:
         if self.client is None or self.session_id is None:
             raise RuntimeError("Debugger not connected")
