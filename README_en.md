@@ -20,7 +20,15 @@ A WeChat Mini Program reverse engineering MCP server that enables AI coding assi
 - [uv](https://docs.astral.sh/uv/) (Required, an extremely fast Python package installer)
 - Running WeChat DevTools (with debugging port enabled) or WeChat PC Mini Program (with remote debugging enabled)
 
-## Prerequisite: Install uv
+## Prerequisite 1: Expose Debug Port
+
+Before using this MCP, you must expose the CDP debugging port of the WeChat Mini Program via an injection tool. Depending on your OS and WeChat version, you can use one of the following open-source tools to hook the process and expose the port (typically on `62000`):
+
+- [WMPFDebugger-arm](https://github.com/chain00x/WMPFDebugger-arm) (For macOS ARM)
+- [WMPFDebugger](https://github.com/evi0s/WMPFDebugger)
+- [WeChatOpenDevTools-Python](https://github.com/JaveleyQAQ/WeChatOpenDevTools-Python)
+
+## Prerequisite 2: Install uv
 
 This project leverages `uvx` for zero-install execution. If you haven't installed `uv` yet, please install it first:
 

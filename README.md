@@ -20,7 +20,15 @@
 - [uv](https://docs.astral.sh/uv/) (必需，超快的 Python 包和环境管理器)
 - 运行中的微信开发者工具（需开启调试端口）或 PC 版微信小程序（开启远程调试机制）
 
-## 安装前置条件：安装 uv
+## 前置准备 1：开启小程序调试端口
+
+在使用本 MCP 之前，你需要先通过注入工具将微信小程序的 CDP 调试端口暴露出来。你可以根据你的操作系统和微信版本，选择以下开源工具之一来完成 Hook 和端口暴露（通常暴露于 `62000` 端口）：
+
+- [WMPFDebugger-arm](https://github.com/chain00x/WMPFDebugger-arm) (适用于 macOS ARM 架构)
+- [WMPFDebugger](https://github.com/evi0s/WMPFDebugger)
+- [WeChatOpenDevTools-Python](https://github.com/JaveleyQAQ/WeChatOpenDevTools-Python)
+
+## 前置准备 2：安装 uv
 
 本项目通过 `uvx` 实现零配置的“开箱即用”。如果你还没安装 `uv`，请先根据你的系统执行以下命令安装：
 
