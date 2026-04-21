@@ -11,13 +11,37 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # 必须拉取两次提交历史，以便比对上一个版本的代码
+
+      - name: Check version change
+        id: version_check
+        run: |
+          # 获取上一次提交时的版本号
+          PREV_VERSION=$(git show HEAD~1:pyproject.toml | grep '^version = ' || echo "no_prev_version")
+          # 获取当前代码的版本号
+          CURR_VERSION=$(grep '^version = ' pyproject.toml || echo "no_curr_version")
+          
+          echo "Previous version line: $PREV_VERSION"
+          echo "Current version line: $CURR_VERSION"
+          
+          # 对比版本号是否发生变化
+          if [ "$PREV_VERSION" != "$CURR_VERSION" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "✨ Version changed! Proceeding to publish."
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "💤 Version unchanged. Skipping publish step."
+          fi
 
       - name: Install uv
+        if: steps.version_check.outputs.changed == 'true'
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
 
       - name: Build and publish
+        if: steps.version_check.outputs.changed == 'true'
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
