@@ -170,7 +170,7 @@ async def search_in_sources(
     is_regex: bool = False,
     max_results: int = 30,
     max_line_length: int = 150,
-    exclude_minified: bool = True,
+    exclude_minified: bool = False,
     url_filter: str | None = None,
 ) -> str:
     await network_capture.ensure_monitoring()
