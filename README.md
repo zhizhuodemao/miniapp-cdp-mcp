@@ -1,6 +1,6 @@
 # MiniApp CDP MCP
 
-[English](README_en.md) | 中文
+[English](https://github.com/zhizhuodemao/miniapp-cdp-mcp/blob/main/README_en.md) | 中文
 
 微信小程序逆向工程 MCP 服务器，让你的 AI 编码助手（如 Claude、Cursor、Antigravity）能够直接通过 Chrome DevTools Protocol (CDP) 调试和分析微信小程序（包括微信开发者工具或 PC 端微信小程序）中的 JavaScript 代码。
 

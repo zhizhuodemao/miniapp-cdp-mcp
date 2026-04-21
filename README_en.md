@@ -1,6 +1,6 @@
 # MiniApp CDP MCP
 
-English | [中文](README.md)
+English | [中文](https://github.com/zhizhuodemao/miniapp-cdp-mcp/blob/main/README.md)
 
 A WeChat Mini Program reverse engineering MCP server that enables AI coding assistants (Claude, Cursor, Antigravity) to debug and analyze JavaScript code in WeChat Mini Programs directly via the Chrome DevTools Protocol (CDP).
 
