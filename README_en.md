@@ -125,11 +125,10 @@ Then use the local path in your MCP configuration:
 | ------------------------ | ---------------------------------------------------------- |
 | `set_breakpoint_on_text` | Set breakpoint by searching code text (works with minified code) |
 | `break_on_xhr`           | Set XHR/Fetch breakpoint by URL pattern                    |
-| `remove_breakpoint`      | Remove normal code breakpoint                              |
-| `remove_xhr_breakpoint`  | Remove XHR/Fetch breakpoint                                |
+| `remove_breakpoints`       | Remove specified breakpoints, or use `clear_all=True` to clear all environments  |
 | `list_breakpoints`       | List all active breakpoints                                |
 | `get_paused_info`        | Get paused state, call stack and scope variables           |
-| `pause_or_resume`        | Toggle pause/resume execution                              |
+| `resume_execution`       | Resume code execution after releasing a breakpoint         |
 | `step`                   | Step over, into, or out with source context in response    |
 
 ### Inspection

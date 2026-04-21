@@ -125,11 +125,10 @@ uv sync
 | ------------------------ | ---------------------------------------------- |
 | `set_breakpoint_on_text` | 通过搜索代码文本自动设置断点（切勿直接对匿名函数声明下断点） |
 | `break_on_xhr`           | 按 URL 模式设置 XHR/Fetch 断点                 |
-| `remove_breakpoint`      | 移除普通代码断点        |
-| `remove_xhr_breakpoint`  | 移除 XHR/Fetch 断点        |
+| `remove_breakpoints`       | 移除指定的断点，或通过 `clear_all=True` 瞬间清空所有断点环境        |
 | `list_breakpoints`       | 列出所有活动断点                               |
 | `get_paused_info`        | 获取暂停状态、调用栈和作用域变量               |
-| `pause_or_resume`        | 切换暂停/恢复执行                              |
+| `resume_execution`       | 释放断点，恢复代码执行                              |
 | `step`                   | 单步调试（over/into/out），返回位置和源码上下文 |
 
 ### 检查工具
