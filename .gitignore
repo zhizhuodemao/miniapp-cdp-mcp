@@ -33,6 +33,7 @@ dist/
 build/
 *.egg-info/
 PyPI-Recovery-Codes*.txt
+pypi-token.txt
 
 # Submodules/Dependencies
 cdp-use/
