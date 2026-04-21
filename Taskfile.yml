@@ -1,0 +1,17 @@
+version: "3"
+
+tasks:
+  sync:
+    desc: "Install project dependencies with uv"
+    cmds:
+      - uv sync
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - uv run pytest
+
+  sample:
+    desc: "Run the sample CLI against a CDP endpoint"
+    cmds:
+      - uv run python -m miniapp_cdp.cli_sample {{.ENDPOINT}}

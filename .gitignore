@@ -1,0 +1,38 @@
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDEs & OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# MCP / AI settings
+.mcp.json
+.claude/
+
+# Temporary files & artifacts
+appservice.app.js
+*.log
+scratch/
+
+# Build & Release
+dist/
+build/
+*.egg-info/
+PyPI-Recovery-Codes*.txt
+
+# Submodules/Dependencies
+cdp-use/
