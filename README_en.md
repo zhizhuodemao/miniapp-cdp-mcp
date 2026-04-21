@@ -181,6 +181,10 @@ Check out the `examples/` directory for real-world scripts derived using this to
 
 This tool exposes the underlying runtime context of mini programs to MCP clients, allowing inspection, debugging, and modification of any data in the app's memory. Do not use this tool for illegal purposes; it is strictly intended for personal learning, security research, and legally authorized reverse engineering.
 
+## Acknowledgements
+
+This project is built on top of [cdp-use](https://github.com/browser-use/cdp-use). `cdp-use` provides a highly optimized and abstracted underlying WebSocket interaction layer designed for Agentic scenarios, greatly simplifying the communication complexity of the raw CDP protocol.
+
 ## License
 
 MIT License

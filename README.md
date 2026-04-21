@@ -181,6 +181,10 @@ uv sync
 
 此工具会将小程序的底层运行上下文暴露给 MCP 客户端，允许检查、调试和修改应用内存中的任何数据。请勿将此工具用于非法用途，仅限于个人学习、安全研究与合法授权的逆向分析。
 
+## 致谢
+
+本项目构建在 [cdp-use](https://github.com/browser-use/cdp-use) 之上。`cdp-use` 提供了一个面向 Agent 场景进行高度优化和抽象的底层 WebSocket 交互层，极大地简化了原始 CDP 协议的通信复杂性。
+
 ## 许可证
 
 MIT License
