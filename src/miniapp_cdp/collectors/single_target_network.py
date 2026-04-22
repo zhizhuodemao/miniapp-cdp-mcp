@@ -385,14 +385,14 @@ class SingleTargetNetworkCollector:
             "mimeType": record.mime_type if record else None,
         }
 
-    async def get_script_source(self, script_id: str) -> str:
+    async def get_script_source(self, script_id: str) -> dict[str, Any]:
         if self.client is None or self.session_id is None:
             raise RuntimeError("Debugger not connected")
         result = await self.client.send.Debugger.getScriptSource(
             params={"scriptId": script_id},
             session_id=self.session_id,
         )
-        return result.get("scriptSource", "")
+        return result
 
     async def search_in_scripts(
         self, query: str, case_sensitive: bool = False, is_regex: bool = False

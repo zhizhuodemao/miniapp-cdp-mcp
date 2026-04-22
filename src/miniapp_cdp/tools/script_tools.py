@@ -61,12 +61,20 @@ async def get_script_source(
         return f"Could not resolve script ID for URL: {url}"
         
     try:
-        source = await collector.get_script_source(resolved_id)
+        source_result = await collector.get_script_source(resolved_id)
     except Exception as e:
         return f"Error getting script source: {e}"
         
-    if not source:
+    source = source_result.get("scriptSource", "")
+    bytecode = source_result.get("bytecode")
+    
+    if not source and not bytecode:
         return f"No source found for script {resolved_id}."
+        
+    if bytecode:
+        import base64
+        binary_data = base64.b64decode(bytecode)
+        return f"Script {resolved_id} is a WebAssembly binary file ({len(binary_data)} bytes). Please use save_script_source to download it as a .wasm file."
         
     md = []
     
@@ -146,21 +154,30 @@ async def save_script_source(
         return f"Could not resolve script ID for URL: {url}"
         
     try:
-        source = await collector.get_script_source(resolved_id)
+        source_result = await collector.get_script_source(resolved_id)
     except Exception as e:
         return f"Error getting script source: {e}"
         
-    if not source:
+    source = source_result.get("scriptSource", "")
+    bytecode = source_result.get("bytecode")
+        
+    if not source and not bytecode:
         return f"No source found for script {resolved_id}."
         
     try:
         os.makedirs(os.path.dirname(os.path.abspath(file_path)), exist_ok=True)
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(source)
+        if bytecode:
+            import base64
+            binary_data = base64.b64decode(bytecode)
+            with open(file_path, "wb") as f:
+                f.write(binary_data)
+            return f"Saved WASM script source to {file_path} ({len(binary_data)} bytes)."
+        else:
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(source)
+            return f"Saved script source to {file_path} ({len(source)} chars)."
     except Exception as e:
         return f"Failed to save to {file_path}: {e}"
-        
-    return f"Saved script source to {file_path} ({len(source)} chars)."
 
 
 async def search_in_sources(
